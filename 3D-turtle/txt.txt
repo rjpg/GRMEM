@@ -1,0 +1,19 @@
+-- trutle 3D (feito em turbo c++ )--
+
+uma "tartaruga" mas desta vez em 3D 
+O exemplo são 2 tartarugas que rodam ao mesmo tempo 
+que sobem e se ligam ... (DNA)
+
+teclas (para controlar a camera):
+
+'8'-rodar para cima
+'5'-rodar para baixo
+'4'e'6'-para os lados
+
+'0'- andar em frente
+'1'- andar para tras
+
+'q'-sair
+
+
+(tem mais teclas, vejam o turtle3d.cpp)
