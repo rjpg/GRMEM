@@ -6,7 +6,8 @@ We have an example of a GRMEM application where a DNA molecule is presented in 3
 
 ![adn](https://github.com/rjpg/GRMEM/assets/22857941/4d10915e-da30-44ca-bdb4-262b52e655ce)
 
-![cubo](https://github.com/rjpg/GRMEM/assets/22857941/40055f43-904a-470c-9183-7a2c2b07e442)
+![cubo](https://github.com/rjpg/GRMEM/assets/22857941/185d7909-4a3d-43ce-88c9-e7cf7209e277)
+
 
 ![cilindro](https://github.com/rjpg/GRMEM/assets/22857941/208f7f6b-5c6b-462d-ae77-0934eef3c223)
 
