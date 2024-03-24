@@ -1,0 +1,207 @@
+;**************************************************************************
+;*	Texte de la version francaise de CRYSTAL
+;*
+;* Programm‚ par S‚bastien Granjoux
+;* Commenc‚ le 05/06/95
+;* Modification le 05/06/95
+
+French	DW	OFFSET FrError
+	DW	OFFSET FrScreen
+	DW	OFFSET FrDevice
+
+FrError         DW	OFFSET UNKNOW_ERRORFR
+		DW	OFFSET ERROR1FR
+		DW	OFFSET ERROR2FR
+		DW	OFFSET ERROR3FR
+		DW	OFFSET ERROR4FR
+		DW	OFFSET ERROR5FR
+		DW	OFFSET ERROR6FR
+		DW	OFFSET ERROR7FR
+		DW	OFFSET ERROR8FR
+		DW	OFFSET ERROR9FR
+		DW	OFFSET ERROR10FR
+		DW	OFFSET ERROR11FR
+		DW	OFFSET ERROR12FR
+		DW	OFFSET ERROR13FR
+		DW	OFFSET ERROR14FR
+		DW	OFFSET ERROR15FR
+		DW	OFFSET ERROR16FR
+		DW	OFFSET ERROR17FR
+		DW	OFFSET ERROR18FR
+		DW	OFFSET ERROR19FR
+		DW	OFFSET ERROR20FR
+		DW	OFFSET ERROR21FR
+		DW	OFFSET PROGRAM_MSGFR
+
+PROGRAM_MSGFR	DB 'Crystal Player V',VERNB,' Par S‚bastien Granjoux',09h,09h,09h,09h,DATE,0dh,0ah
+		DB 'Ce programme permet de jouer des fichiers MOD.',0ah,0dh
+		DB 'Il s''utilise de la maniŠre suivante :',0dh,0ah,0dh,0ah
+		DB 09h,'CRYS [/SK|/AD|/DCl|/SBp,i|/GSp] [/FRf] nom du fichier mod',0dh,0ah
+		DB 0ah,0dh
+		DB 09h,'  /SK permet d''utiliser le speaker',0dh,0ah
+		DB 09h,'  /AD permet d''utiliser une carte adlib',0dh,0ah
+		DB 09h,'  /DCl permet d''utiliser un DAC sur le port parallŠle l(1-4)',0dh,0ah
+		DB 09h,'  /SBp,i,d permet d''utiliser une soundblaster (8 bits mono) sur le port',0dh,0ah
+		DB 09h,'           p avec l''irq i et le canal DMA d',0dh,0ah
+		DB 09h,'  /SPp,i,d permet d''utiliser une soundblaster pro (8 bits stereo) sur',0dh,0ah
+		DB 09h,'           le port p avec l''irq i et le canal DMA d',0dh,0ah
+		DB 09h,'  /GSp permet d''utiliser une GUS sur le port p',0dh,0ah
+		DB 09h,'  /FRf permet de donner la fr‚quence de mixage en disaine de Hz',0dh,0ah
+		DB 0dh,0ah,'Par d‚faut le player recherche dans les variables d''environnement la carte',0dh,0ah
+		DB 'sonore … utiliser ou les paramŠtres manquant et joue vers 20Khz.',0dh,0ah
+		DB 0dh,0ah
+		DB '$'
+
+UNKNOW_ERRORFR	DB	'Erreur inconnu$'
+ERROR1FR	DB	'Fonction inconnu$'
+ERROR2FR	DB	'Fichier introuvable$'
+ERROR3FR	DB	'Chemin introuvable$'
+ERROR4FR	DB	'Trop de fichier ouvert$'
+ERROR5FR	DB	'AccŠs refus‚$'
+ERROR6FR	DB	'Handle inconnu$'
+ERROR7FR	DB	'Bloc de contr“le m‚moire d‚truit$'
+ERROR8FR	DB	'M‚moire insuffisante$'
+ERROR9FR	DB	'Adresse m‚moire incorrect$'
+ERROR10FR	DB	'Environnement incorrect$'
+ERROR11FR	DB	'Trop de pattern$'
+ERROR12FR	DB	'Sample trop grand$'
+ERROR13FR	DB	'Port parallŠle introuvable$'
+ERROR14FR	DB	'Sound blaster introuvable$'
+ERROR15FR	DB	'GUS introuvable$'
+ERROR16FR	DB	'Pas assez de m‚moire sur la GUS$'
+ERROR17FR	DB	'Drivers introuvable$'
+ERROR18FR	DB	'Voix inconnu$'
+ERROR19FR	DB	'Carte son introuvable$'
+ERROR20FR	DB	'Carte Adlib introuvable$'
+ERROR21FR	DB	'Trop de drivers charg‚$'
+
+FrScreen	DW	MAIN_SCRFR
+		DW	MEMO_SCRFR
+		DW      VUMETER_SCR
+		DW      SAMPLE_SCR
+		DW	HELP_SCRFR
+
+MAIN_SCRFR:
+	DB      27,2,'Crystal Player Version ',VERNB,' Programm‚ par '
+	DB	'S‚bastien Granjoux',11,8,'le ',DATE,10
+	DB	01,23,' Musique: ',27,14,69,10
+	DB	23,' Sur: ',27,14,DEV_NAME_LEN,23,'A ',27,13,5,' Hz'
+	DB	23,'  Temps: ',27,13,2,':',13,2,'  ',10
+	DB	23,' Sequence: ',27,13,3,'/',13,3,23,'  Pattern: ',27,13,3
+	DB	23,'  Ligne: ',27,13,2,23,'  Tempo: ',27,13,2,'/',13,3
+	DB	23,'  Volume: ',27,13,3,'  ',10
+	DB	23,' M‚moire utilis‚: ',27,13,3,' Ko'
+	DB	23,'  CPU utilis‚: ',27,13,2,' %  ',10,0
+VUMETER_SCR:
+	DB	25,'Ú',12,4,'ÄÂ',12,24,'ÄÂ',12,4,'ÄÂ'
+	DB	12,5,'ÄÂ',12,18,'ÄÂ',12,18,'Ä¿',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB	25,'³ ',30,13,2,25,' ³ ',31,14,22,25,' ³ ',19,13,2,25,' ³ '
+	DB	26,14,3,25,' ³ ',21,14,16,25,' ³ ',16,12,16,'þ',25,' ³',10
+	DB      25,'À',12,4,'ÄÁ',12,24,'ÄÁ',12,4,'ÄÁ'
+	DB	12,5,'ÄÁ',12,18,'ÄÁ',12,18,'ÄÙ',0
+
+MEMO_SCRFR:
+	DB	2,'  ',26,'F1 ',27,'Aide  ',26,'F2 ',27,'Vu-metres  '
+	DB	26,'F3 ',27,'Instruments  ',11,26
+	DB	26,'Esc ',27,'Quitter',11,2
+	DB	0
+
+SAMPLE_SCR:
+	DB	25,'Ú',12,78,'Ä¿',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB	25,'³',11,6,27,14,32,11,2,14,32,25,11,6,'³',10
+	DB      25,'À',12,78,'ÄÙ',10,0
+
+HELP_SCRFR:
+	DB	25,'Ú',12,78,'Ä¿',10
+	DB	25,'³',27,11,29,'Touches utilisables',11,30,25,'³',10
+	DB	25,'³',27,11,28,12,21,'Ä',11,29,25,'³',10
+	DB	25,'³',27,11,34,12,9,'Ä',11,35,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,'Pause       : Pause                    ',11,39,25,'³',10
+	DB	25,'³',27,'Arret Defil : Boucler sur un pattern   ',11,39,25,'³',10
+	DB	25,'³',27,'1 .. 0      : Voix on/off              ',11,39,25,'³',10
+	DB	25,'³',27,'Fin         : Passer au pattern suivant',11,39,25,'³',10
+	DB	25,'³',27,'+/- gris‚   : Changer le volume global ',11,39,25,'³',10
+	DB	25,'³',27,'Curseur ',15,27,' ',15,26,' : Changer de position      ',11,39,25,'³',10
+	DB	25,'³',27,'F8          : Changer de langue        ',11,39,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB      25,'À',12,78,'ÄÙ',10,0
+
+
+FrDevice	DW	8,OFFSET USINGMSGFR,OFFSET NOS_DEVFR,OFFSET NEWLINEFR
+		DW	8,OFFSET USINGMSGFR,OFFSET SPK_DEVFR,OFFSET NEWLINEFR
+		DW	10,OFFSET USINGMSGFR,OFFSET DAC_DEVFR,OFFSET PORTMSGFR
+		DW	OFFSET NEWLINEFR
+		DW	14,OFFSET USINGMSGFR,OFFSET SB_DEVFR,OFFSET ADRMSGFR
+		DW      OFFSET IRQMSGFR,OFFSET DMAMSGFR,OFFSET NEWLINEFR
+		DW	10,OFFSET USINGMSGFR,OFFSET GUS_DEVFR,OFFSET ADRMSGFR
+		DW	OFFSET GUSMSGFR
+		DW	14,OFFSET USINGMSGFR,OFFSET SP_DEVFR,OFFSET ADRMSGFR
+		DW	OFFSET IRQMSGFR,OFFSET DMAMSGFR,OFFSET NEWLINEFR
+		DW	8,OFFSET USINGMSGFR,OFFSET ADL_DEVFR,OFFSET NEWLINEFR
+
+NOS_DEVFR	DB	'rien',0,'$'
+SPK_DEVFR	DB	'le haut parleur interne',0,'$'
+DAC_DEVFR	DB	'un DAC',0,'$'
+SB_DEVFR	DB	'une SoundBlaster 8 bits mono',0,'$'
+GUS_DEVFR	DB	'une Gravis Ultra Sound',0,'$'
+SP_DEVFR	DB	'une SoundBlaster 8 bits stereo',0,'$'
+ADL_DEVFR	DB	'une carte adlib',0,'$'
+
+USINGMSGFR	DB	'Utilise $'
+ADRMSGFR	DB	' … l''adresse $'
+PORTMSGFR	DB	' sur le port parallŠle $'
+IRQMSGFR	DB	' avec l''IRQ $'
+DMAMSGFR	DB	' et le DMA $'
+NEWLINEFR	DB	0ah,0dh,'$'
+GUSMSGFR	DB	0ah,0dh,'Chargement des samples ...',0ah,0dh,'$'
+

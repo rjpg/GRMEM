@@ -1,0 +1,150 @@
+;**************************************************************************
+;*	Texte de la version anglaise de CRYSTAL
+;*
+;* Programm‚ par S‚bastien Granjoux
+;* Commenc‚ le 05/06/95
+;* Modification le 05/06/95
+
+English	DW	OFFSET EngError
+	DW	OFFSET EngScreen
+	DW	OFFSET EngDevice
+
+EngError        DW	OFFSET UNKNOW_ERRORENG
+		DW	OFFSET ERROR1ENG
+		DW	OFFSET ERROR2ENG
+		DW	OFFSET ERROR3ENG
+		DW	OFFSET ERROR4ENG
+		DW	OFFSET ERROR5ENG
+		DW	OFFSET ERROR6ENG
+		DW	OFFSET ERROR7ENG
+		DW	OFFSET ERROR8ENG
+		DW	OFFSET ERROR9ENG
+		DW	OFFSET ERROR10ENG
+		DW	OFFSET ERROR11ENG
+		DW	OFFSET ERROR12ENG
+		DW	OFFSET ERROR13ENG
+		DW	OFFSET ERROR14ENG
+		DW	OFFSET ERROR15ENG
+		DW	OFFSET ERROR16ENG
+		DW	OFFSET ERROR17ENG
+		DW	OFFSET ERROR18ENG
+		DW	OFFSET ERROR19ENG
+		DW	OFFSET ERROR20ENG
+		DW	OFFSET ERROR21ENG
+		DW	OFFSET PROGRAM_MSGENG
+
+PROGRAM_MSGENG	DB 'Crystal Player V',VERNB,' By S‚bastien Granjoux',09h,09h,09h,09h,DATENG,0dh,0ah
+		DB 'This is a module player that plays MOD !',0ah,0dh
+		DB 'You have to use it like this :',0dh,0ah,0dh,0ah
+		DB 09h,'CRYS [/SK|/AD|/DCl|/SBp,i|/GSp] [/FRf] name of a module',0dh,0ah
+		DB 0ah,0dh
+		DB 09h,'  /SK use internal PC speaker',0dh,0ah
+		DB 09h,'  /AD use adlib soundboard',0dh,0ah
+		DB 09h,'  /DCl use DAC on printer port l(1-4)',0dh,0ah
+		DB 09h,'  /SBp,i,d use a soundblaster (8 bits mono) at port p with IRQ i and',0dh,0ah
+		DB 09h,'           DMA d',0dh,0ah
+		DB 09h,'  /SPp,i,d use a soundblaster pro (8 bits stereo) at port p with IRQ i',0dh,0ah
+		DB 09h,'           and DMA d',0dh,0ah
+		DB 09h,'  /GSp use a GUS at port p',0dh,0ah
+		DB 09h,'  /FRf set the mixing frequency in tens of Hz',0dh,0ah
+		DB 0dh,0ah,'By default the player search the best sound card or the missing parameters',0dh,0ah
+		DB 'in the environment variables and play around 20Khz.',0dh,0ah
+		DB 0dh,0ah
+		DB '$'
+
+UNKNOW_ERRORENG	DB	'Unknown Error$'
+ERROR1ENG	DB	'Unknown Function$'
+ERROR2ENG	DB	'Can''t find file$'
+ERROR3ENG	DB	'Can''t find path$'
+ERROR4ENG	DB	'Too many open files$'
+ERROR5ENG	DB	'Acces denied$'
+ERROR6ENG	DB	'Unknown handle$'
+ERROR7ENG	DB	'Memory control block corrupted$'
+ERROR8ENG	DB	'Not enough memory$'
+ERROR9ENG	DB	'Incorrect memory adress$'
+ERROR10ENG	DB	'Environment corrupted$'
+ERROR11ENG	DB	'Too many pattern$'
+ERROR12ENG	DB	'Sample too big$'
+ERROR13ENG	DB	'Unknown printer port$'
+ERROR14ENG	DB	'Can''t find soundblaster$'
+ERROR15ENG	DB	'Can''t find GUS$'
+ERROR16ENG	DB	'Not enough GUS memory$'
+ERROR17ENG	DB	'Unknown driver$'
+ERROR18ENG	DB	'Unknown voice$'
+ERROR19ENG	DB	'Can''t find soundcard$'
+ERROR20ENG	DB	'Can''t find adlib sound card$'
+ERROR21ENG	DB	'Too many loaded driver$'
+
+EngScreen	DW	MAIN_SCRENG
+		DW	MEMO_SCRENG
+		DW      VUMETER_SCR
+		DW      SAMPLE_SCR
+		DW	HELP_SCRENG
+
+MAIN_SCRENG:
+	DB      27,2,'Crystal Player Version ',VERNB,' Written by '
+	DB	'S‚bastien Granjoux',11,11,'in ',DATENG,10
+	DB	01,23,' Music: ',27,14,69,'  ',10
+	DB	23,' On: ',27,14,DEV_NAME_LEN,23,'At ',27,13,5,' Hz'
+	DB	23,'  Time: ',27,13,2,':',13,2,'  ',10
+	DB	23,' Sequence: ',27,13,3,'/',13,3,23,'  Pattern: ',27,13,3
+	DB	23,'  Line: ',27,13,2,23,'  Tempo: ',27,13,2,'/',13,3
+	DB	23,'  Volume: ',27,13,3,'  ',10
+	DB	23,' Memory used: ',27,13,3,' Ko'
+	DB	23,'  CPU used: ',27,13,2,' %       ',10,0
+
+MEMO_SCRENG:
+	DB	2,'  ',26,'F1 ',27,'Help  ',26,'F2 ',27,'Vu-meters  '
+	DB	26,'F3 ',27,'Samples  ',11,33
+	DB	26,'Esc ',27,'Quit',11,2
+	DB	0
+
+HELP_SCRENG:
+	DB	25,'Ú',12,78,'Ä¿',10
+	DB	25,'³',27,11,34,'Usable keys',11,33,25,'³',10
+	DB	25,'³',27,11,28,12,21,'Ä',11,29,25,'³',10
+	DB	25,'³',27,11,34,12,9,'Ä',11,35,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,'Pause       : Pause                    ',11,39,25,'³',10
+	DB	25,'³',27,'Scroll lock : Loop pattern             ',11,39,25,'³',10
+	DB	25,'³',27,'1 .. 0      : Voice on/off             ',11,39,25,'³',10
+	DB	25,'³',27,'End         : Go next pattern          ',11,39,25,'³',10
+	DB	25,'³',27,'Gray +/-    : Change global volume     ',11,39,25,'³',10
+	DB	25,'³',27,'Cursor ',15,27,' ',15,26,'  : Change position          ',11,39,25,'³',10
+	DB	25,'³',27,'F8          : Change language          ',11,39,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB	25,'³',27,11,78,25,'³',10
+	DB      25,'À',12,78,'ÄÙ',10,0
+
+
+EngDevice	DW	8,OFFSET USINGMSGENG,OFFSET NOS_DEVENG,OFFSET NEWLINEENG
+		DW	8,OFFSET USINGMSGENG,OFFSET SPK_DEVENG,OFFSET NEWLINEENG
+		DW	10,OFFSET USINGMSGENG,OFFSET DAC_DEVENG,OFFSET PORTMSGENG
+		DW	OFFSET NEWLINEENG
+		DW	14,OFFSET USINGMSGENG,OFFSET SB_DEVENG,OFFSET ADRMSGENG
+		DW      OFFSET IRQMSGENG,OFFSET DMAMSGENG,OFFSET NEWLINEENG
+		DW	10,OFFSET USINGMSGENG,OFFSET GUS_DEVENG,OFFSET ADRMSGENG
+		DW	OFFSET GUSMSGENG
+		DW	14,OFFSET USINGMSGENG,OFFSET SP_DEVENG,OFFSET ADRMSGENG
+		DW	OFFSET IRQMSGENG,OFFSET DMAMSGENG,OFFSET NEWLINEENG
+		DW	8,OFFSET USINGMSGENG,OFFSET ADL_DEVENG,OFFSET NEWLINEENG
+
+NOS_DEVENG	DB	'nothing',0,'$'
+SPK_DEVENG	DB	'the internal PC speaker',0,'$'
+DAC_DEVENG	DB	'a DAC',0,'$'
+SB_DEVENG	DB	'a SoundBlaster 8 bits mono',0,'$'
+GUS_DEVENG	DB	'a Gravis Ultra Sound',0,'$'
+SP_DEVENG	DB	'a SoundBlaster 8 bits stereo',0,'$'
+ADL_DEVENG	DB	'a adlib soundboard',0,'$'
+
+USINGMSGENG	DB	'Use $'
+ADRMSGENG	DB	' at adress $'
+PORTMSGENG	DB	' on printer port $'
+IRQMSGENG	DB	' with IRQ $'
+DMAMSGENG	DB	' and DMA $'
+NEWLINEENG	DB	0ah,0dh,'$'
+GUSMSGENG	DB	0ah,0dh,'Loading samples...',0ah,0dh,'$'
+

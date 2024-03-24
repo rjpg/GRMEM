@@ -1,0 +1,323 @@
+GRMEM.CPP-GRMEM.TXT (c) X-prog 1997     /* Rui Jorge Pereira Gon‡alves */
+
+Estes ficheiro (GRMEM.CPP) foi escrito em Borland Turbo C++ mas trabalha em
+qualquer compilador de C++ pois tive o cuidado de escreve-lo em C++ standart,
+
+Este ficheiro vai ser  optimizado e aumentado no decorrer do tempo, pois o
+objectivo principal da minha programa‡ao em C neste momento ‚ conseguir um
+bom ambiente para trabalhar gr ficos 3D, onde seja  poss¡vel  fazer um render
+de um desenho 3D com:
+	Faces com texturas 
+	Faces com luz pr¢pria 
+	Faces espelhadas 
+	Faces transparentes 
+	Objectos com refrac‡ao
+        Efeitos de luz (HALOWS, LENS FLARE, etc)
+	Nevoeiro
+e muito mais. Atrav‚s do m‚todo de rendering RAY-TRACE.
+
+/**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
+
+lista de struct
+---------------------------------------------------------------------
+----------
+struct vec
+{
+	float x,y;
+	vec(float xx,float yy) {x=xx;y=yy;}
+	vec(){x=0;y=0;}
+};
+	Estrutura de vectores bidimensionais
+---------
+
+---------
+struct vec3
+	{
+	float x, y, z;
+	vec3(double xx, double yy, double zz)
+		{
+		x=xx;y=yy;z=zz;
+		}
+	vec3 ()
+		{
+		x=0;
+		y=0;
+		z=0;
+		}
+	};
+	Estrutura de vectores tridimensionais
+---------
+
+
+
+
+
+
+
+
+
+
+
+lista de classes
+---------------------------------------------------------------------
+
+---------
+class Dmem
+
+char **mem;
+
+        Esta ‚ a matriz associada Ë. ..  rea de desenho.
+	 EX: p"r um pixel
+		Dmem a(100,100);
+		a.mem[50][50]=10
+
+Dmem (void);
+
+        Construtor Dmem a; aloja 320*200 em **mem.
+
+Dmem (int x,int y);
+
+	Construtor Dmem a(100,50); aloca 100*50 em **mem.
+
+void point (int x,int y,char valor);
+
+	P"r um ponto em mem[x][y_max-y]=valor.
+	y_max ‚ uma vari vel interna que contem o
+	tamanho y da matriz.Nota que assim a origem
+	fica no canto inf. esq. .
+	 EX:
+		Dmem a(10,10);
+		a.point(5,5,120) //ponto 5,5 fica com a cor 120
+
+void putmem(int x,int y,char *memo,int size);
+
+	copia size bytes de *memo para **mem a partir
+	da posi‡ao x,y .
+	 EX:
+		Dmem a;
+		char *buffer="qwedsasdwerew";
+		a.putmem(10,10,buffer,7);
+
+	Copiou 7 bytes de buffer para a.mem a partir de mem[10][10]
+
+int IX (float x);
+
+	Converte uma coordenada x, float em inteira adaptando-a
+	ao tamanho da matriz.
+
+int IY (float y);
+
+	Converte uma coordenada y, float em inteira adaptando-a
+	ao tamanho da matriz.
+
+
+
+void clear(char valor);
+
+	Limpa a matriz com a cor valor.
+	 EX:
+		Dmem a;
+		a.clear(20);
+
+~Dmem();
+	Destrutor
+---------
+
+---------
+class memto
+
+	Class para fazer linha ligadas.
+	Trabalha com inteiros.
+
+memto ()
+
+	Construtor aponta as coordenadas de mem¢ria para  0,0.
+
+void moveto (int x,int y);
+
+	Move as coordenadas de mem¢ria para x,y.
+
+void lineto (int x,int y,Dmem &ecra,char valor);
+
+	Faz uma linha desde as coordenadas de mem¢ria at‚ x,y
+	em ecra com a cor valor.
+
+~memto();
+
+	Destrutor.
+---------
+
+---------
+class memtofit
+
+	Class para fazer linha ligadas.
+	Trabalha com vec (float).
+
+memtofit ();
+
+	Construtor aponta as coordenadas de mem¢ria para  vec(0,0).
+
+void moveto (vec &a);
+
+	Move as coordenadas de mem¢ria para a.
+
+void lineto (vec &b,Dmem &ecra,char valor);
+
+	Faz uma linha desde as coordenadas de mem¢ria at‚ b
+	em ecra com a cor valor.
+
+
+~memtofit();
+
+	Destrutor.
+---------
+
+---------
+class cam
+
+	Esta class serve para definir pontos de vista no espa‡o  (cameras)
+
+float rho,theta,phi;
+
+	Coordenadas esf‚ricas do ponto de vista.
+	rho distancia
+	theta ƒngulo horizontal  com X (em radianos)
+	phi  ƒngulo vertical com  Z (em radianos)
+
+vec3 target;
+
+	Para onde aponta a camera.
+
+float dist;
+
+	tipo de lente p"r defeito ‚ 8.
+
+cam();
+
+	Construtor.
+
+void camdef(double rho, double theta, double phi);
+
+	Redefinir as coordenadas esf‚ricas.
+
+void coeff (double rho, double theta, double phi);
+
+	Actualiza‡ao da matriz com as coordenadas esf‚ricas
+	para a transforma‡ao de coordenadas.
+
+void eyecoord (vec3 &pw, vec3 &pe);
+
+	Transforma‡ao de coordenadas de maneira a que o eixo z
+	aponte para nos.
+
+void perspective (vec3 &p,vec &pxy);
+
+	Aplica‡ao da perspectiva, transforma‡ao das coordenadas
+	tridimensionais vec3 para bidimensionais vec.
+
+vec to2d (vec3 &p,Dmem &ecra);
+
+	Aplica‡ao da perspectiva, transforma‡ao das coordenadas
+	tridimensionais vec3 para bidimensionais vec adaptadas
+	ao tamanho x_max,y_max da vari vel ecra.
+
+~cam();
+
+	Destrutor.
+
+EX: desenhar o eixo Z
+
+	Dmem jan;                  // definir  rea de desenho
+	cam camera;                // definir uma camera
+	vec3 a(0,0,10),b(0,0,0);   // definir dois pontos no espa‡o
+	camera.camdef(10,45,45);   // actualizar as coordenadas esf‚ricas
+	vec z=camera.to2d(a,jan);  // transforma‡ao de vec3 a para vec z
+	vec o=camera.to2d(b,jan);  // transforma‡ao de vec3 b para vec o
+
+	linememfit(o,z,jan,15);    // desenhar a linha de (o) a (z) em jan
+				   // com a cor 15. Fun‡ao abaixo definida.
+
+
+---------
+
+
+lista de fun‡oes
+---------------------------------------------------------------------
+Nota : todas estas fun‡oes trabalham com a origem no canto INF. ESQ.
+
+void linemem (int xp,int yp,int xq,int yq,Dmem &ecra,char valor)
+
+	Faz uma linha em ecra com a cor valor.
+	Esta fun‡ao trabalha com n£meros inteiros.
+
+void circlemem (int xc,int yc,int r,Dmem &ecra, char valor)
+
+	Faz uma circunferˆncia de centro xc,yc , com raio r
+	em ecra com a cor valor.
+	Esta fun‡ao trabalha com n£meros inteiros.
+
+void horlinemem (int x1,int x2,int y,Dmem &ecra,char valor)
+
+	Faz uma linha horizontal em ecra com a cor valor.
+	Esta fun‡ao trabalha com n£meros inteiros.
+
+void fillpolimem (int *X,int *Y,int n, Dmem &ecra, char valor)
+
+	Esta fun‡ao enche um pol¡gono com n v‚rtices,
+	em ecra com a cor valor.
+	Recebe um vector com coordenadas x *X e um
+	vector com coordenadas y *Y.
+
+void linememfit (vec &pontoa,vec &pontob,Dmem &ecra,char valor)
+
+	Esta fun‡ao faz uma linha de vec pontoa a vec pontob
+	na vari vel ecra com a cor valor.
+	Esta fun‡ao trabalha com vec, coordenadas float.
+
+
+void circlememfit(vec &center,int r,Dmem &ecra,char valor)
+
+	Faz uma circunferˆncia de centro vec center , com raio r
+	em ecra com a cor valor.
+	Esta fun‡ao trabalha com vec, coordenadas float.
+
+void fillpolymemfit (vec *coord,int n,Dmem ecra,char valor)
+
+	Esta fun‡ao enche um pol¡gono com n v‚rtices,
+	em ecra com a cor valor.
+	Recebe um vector com coordenadas, vec *coord.
+	Esta fun‡ao trabalha com vec, coordenadas float.
+
+Opera‡oes com vectores:
+-------
+2D
+vec operator+(vec &u,vec&v)
+
+vec operator-(vec &u, vec &v)
+
+vec &operator+=(vec &u,vec&v)
+
+vec &operator-=(vec &u,vec&v)
+------
+------
+3D
+vec3 operator + (vec3 &u, vec3 &v)
+
+vec3 operator - (vec3 &u, vec3 &v)
+
+vec3 operator * (double c, vec3 &v)
+
+vec3 &operator += (vec3 &u, vec3 &v)
+
+vec3 &operator-=(vec3 &u, vec3 &v)
+
+vec3 &operator*=(vec3 &v, double c)
+
+double dotproduct (vec3 &a, vec3 &b) // Produto interno
+
+double abs (vec3 &v)
+
+vec3 crossproduct (vec3 &a, vec3 &b) // Produto externo
+------
+
+FIM         (c) 1997 X-prog

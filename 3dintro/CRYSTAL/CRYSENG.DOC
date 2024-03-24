@@ -1,0 +1,681 @@
+
+
+
+                         CRYSTAL PLAYER Version 2.74
+
+               A simple player and sound system for your programs
+
+
+                          Written by S‚bastien GRANJOUX
+                               a.k.a Dilvish / MWB
+
+
+
+
+       WARNING:  You  are using this software  at  your own risks! In no
+       events  should I be liable for  any damage or loss resulting from
+       the  use, misuse or inability to use Crystal Player. There are no
+       warranties, except that this program will occupy disk place.
+
+
+
+
+ Contents
+-------------------------------------------------------------------------------
+
+
+       I ................................................. Licence
+       II ........................................ Archive content
+
+       III .............................................. Features
+       IV ......................................... The MOD player
+
+       V .............................. Using Crystal Sound System
+       VI ......................... Crystal Sound System Functions
+       VII ............................ Frequently Asked Questions
+
+       VIII ............................................... Thanks
+       IX ................................... Contact informations
+       X ..................................... Distributions Sites
+
+
+
+
+ Chapter I : Licence
+-------------------------------------------------------------------------------
+
+
+           This  program  enables  you to play  music  files  in the MOD
+       format and can be included in your own programs, as long as these
+       terms are respected:
+
+           You  can  freely  include  Crystal  Player  in  any  freeware
+       software,  if you credit me as the author of the sound system. It
+       will  be  nice to send me a  message  telling me where I can find
+       your program.
+           For  any  commercial  use  (including  shareware),  you  must
+       contact  me  to  discuss  about further  terms  and  to obtain my
+       agreement.  I ask for a full  registered version of your software
+       and a small fee based on his price.
+
+           This  program  is provided with its  full sources in order to
+       enable  you to modify and adapt them so as to fit your particular
+       needs.  These modifications should be kept personnal, but I'll be
+       glad to receive any improvement to Crystal Player. I just want to
+       keep  Crystal  Player under control,  in  order to prevent bugged
+       versions from floating around.:-)
+
+           You  can freely distribute this program, as long as you don't
+       charge  more than 5 US dollars for shipping fees and you keep all
+       the original files in the archive.
+
+           Contact informations are located at the end of this file.
+
+
+
+
+ Chapter II : Archive Content
+-------------------------------------------------------------------------------
+
+           The  archive  should  be called  CRYSxxxl,  where  xxx is the
+       version  (for  instance  240 means  version  2.40).  The letter l
+       doesn't exist in public releases, it's only for internal use. For
+       example,  B  means that it is a  beta  version, some files may be
+       missing, and some (known :-)) bugs could be present.
+
+           The usual archive contains these 40 files:
+
+       CRYS.EXE      Executable version of the modplayer.
+
+       CRYSTAL.LIB   Library for C programs.
+       CRYSTAL.H     Include file for the library.
+
+       CRYSTAL.TPU   Unit for Turbo Pascal programs.
+       CRYSINT.TPU   Low level functions for CRYSTAL unit.
+       CRYSTAL.PAS   Source of CRYSTAL unit for Turbo Pascal.
+       CRYSINT.PAS   Source of low level functions unit.
+
+       CRYSEXP.C     Example that use Crystal Sound System in Turbo C.
+       CRYSEXP.PAS   Same as above, but in Turbo Pascal.
+
+       CRYSENG.DOC   User's manual, you are reading it now.
+       CRYSFR.DOC    Same as above, but in french.
+       HISTORY.DOC   Player's history.
+       FILE_ID.DIZ   Description for BBSes.
+
+
+       C0MULTI.ASM   Starting code for Crystal Player in assembler.
+       CRYS.ASM      Source of Crystal MOD player.
+       CRYSFR.MSG    Player text in french
+       CRYSENG.MSG   Player text in english
+       CRYSPLAY.ASM  Routines to get infos from the sound system.
+       GMODE3.ASM    Routines for text mode 3 (80x25 16 colors).
+
+       MAKEFILE.MAK  Makefile for the C and pascal libraries.
+
+       CRYSERR.INC   All possible crystal errors codes.
+       CRYSID.INC    All ID for crystal devices.
+       CRYS260.ASM   Main source for crystal sound system.
+
+       CRYSDEV.INC   Declarations for drivers.
+       CRYSDEV.ASM   Common routines for drivers.
+       DAC.ASM       DAC driver.
+       SPEAKER.ASM   PC speaker driver.
+       SNDBLAST.ASM  Sound Blaster (8 bits mono) driver.
+       GUS.ASM       GUS driver.
+       SNDPRO.ASM    Sound Blaster pro (8 bits stereo) driver.
+       ADLIB.ASM     Adlib driver.
+
+       CRYSLOAD.INC  Declarations for loading modules.
+       CRYSLOAD.ASM  Common routines for loading modules.
+       LOADMOD.ASM   Routines for loading MOD.
+       FLOADMOD.ASM  Loading MOD from file.
+       MLOADMOD.ASM  Loading MOD from memory.
+       OLOADMOD.ASM  Loading MOD from overlay.
+       CRYSFILE.ASM  Routines for reading files.
+       CRYSOVL.ASM   Routines for reading overlay.
+       CRYSMEM.ASM   Routines for reading memory.
+
+
+
+
+ Chapter III : Features
+-------------------------------------------------------------------------------
+
+
+           This  program  is  entirely  coded  in  asm  and contains 386
+       instructions. It don't works on XT and 286 based PCs. It supports
+       the following sound devices:
+           - the internal speaker (rather good sound)
+           - a DAC (digital to analog convertor) on a parallel port
+           - a adlib sound board
+           - a Sound Blaster (SB, SB pro and SB16) in mono or stereo but
+              only 8 bits
+           - a Gravis UltraSound card
+
+           It  plays  MOD files with 15 or  31 instruments and 4, 6 or 8
+       channels,  but  each  sample  should be  smaller  than  62 Ko. It
+       recognize  almost  all effects except:  E3,E4,E5,E8,E7 and EF. On
+       the  other  hand, it uses 8  octaves  like MOD files tracked with
+       Scream Tracker 3.
+
+           As  you will notice by reading the history, this program has
+       been constantly evolving, so it isn't very easy to understand. It
+       contains  a few bugs, and if  something don't works, maybe you've
+       just  discovered a new one. ;) In this case, contact me. Usually,
+       I  correct  bugs  rather quickly. If  it's  a particular MOD file
+       which don't work, I would like you to send it to me (at least the
+       name and the place where I cand find it).
+
+
+
+
+ Chapter IV : The MOD player
+-------------------------------------------------------------------------------
+
+
+           The  MOD  player  contained in  the  archive isn't meant to
+       concurrence other MOD players, and it has only few options. It is
+       provided  so that you can easily see the qualities (and lacks) of
+       the  sound routines. It also gives you  an example to use them in
+       asm.  It  uses internal informations of  the routines, so you can
+       look  how to use them if you really need them. You can code a new
+       MOD  player  with these routines but  they doesn't really be made
+       for that.
+
+           It  can  be  easily  used, and  if  you  run it without any
+       parameter,  it will display a help page. You should at least give
+       the  name  of  a .MOD file. It  will  then choose itself the best
+       sound device that it will find in your environment variables. You
+       can  force  a  sound  device, even  if  it  doesn't exist in your
+       environment variables, or change the default mixing frequency (19
+       kHz) by using these options:
+
+            /FRxxxx Mixing frequency in tens of Hertz
+
+            /SK       Internal Speaker
+            /DCp      DAC on port p (1 to 4)
+            /SBp,i,d  Sound Blaster (8 bits mono) on port p (in
+                       hexadecimal 220 for instance) with IRQ i and DMA d.
+            /GSp      Gravis UltraSound on port p (in hexadecimal)
+            /SPp,i,d  Sound Blaster pro (8 bits stereo) on port p (always
+                       in hexadecimal) with IRQ i and DMA d.
+            /AD       Adlib soundboard
+
+           You don't need to provide p, d or i parameters (but leave the
+       comma)  the  player  will look  for  those  values in environment
+       variables. If they don't exist, it uses default values.
+
+           The  number shows after cpu used is  the cpu used only by the
+       sound  player  and the main screen  (vu meters, help or samples),
+       without updating the other informations. So if you go in the help
+       or  sample  screen, you will see the  CPU  used only by the sound
+       system.  The  mem used include all  the  player with its specific
+       routines  like  vu-meters  not  normally  included  in  the sound
+       system.
+
+
+
+
+ Chapter V : Using Crystal Sound System
+-------------------------------------------------------------------------------
+
+
+           The  source  was assembled by  Turbo Assembler in ideal mode,
+       and   needs  a  386.  Sound   routines  are  gathered  mainly  in
+       CRYS260.ASM.  To  use  them, you need  only  the  library and his
+       corresponding include file or the two pascal units.
+
+           To  play  music,  you need to  call  several functions in the
+       right order. First, you have to decided which drivers you want to
+       use  by  calling  the corresponding  USE  functions  (for example
+       USESPK for the PC speaker). These functions just force the linker
+       to  put the driver's code in your program. The order is which you
+       call them, is the order in which DETECTSND will find the devices.
+       So  if you think that the GUS is the best sound card, you have to
+       call  USEGUS  first  in order to find  a  GUS even if there is an
+       other card like Sound Blaster.
+
+           You  can  call DETECTSND to  find the soundcards available on
+       the  computer.  This  functions  doesn't  use  hardware detection
+       methods   to   avoid  compatibilities   problems,   but  use  the
+       environment  variables. So, if you don't have, for example, a SET
+       BLASTER  in  your AUTOEXEC.BAT, the  funtions  won't find a sound
+       blaster.  For the DAC you can use DAC=port, with a number between
+       1  and  4 for port, corresponding  to the parallel port where the
+       DAC  is plugged. There is no environment variables for pc speaker
+       or  adlib  so  there are  always  detected.  This functions isn't
+       mandatory, if you already know the sound card you wants.
+
+           Now,  you  have to load the module  you want to play. For all
+       that, you can use FLOADMOD,MLOADMOD ou OLOADMOD if the modules is
+       stored  respectively  in a file, a  zone  of memory or an overlay
+       (just  append at the end of  the programm). As, others functions,
+       if  there is a problem during the execution, for example there is
+       no file of the corresponding name, the carry flag will be set and
+       they will return an error code.
+
+           After  loading the module, you have to set up the player with
+       SETMOD for the selected sound card, which must be in the ones you
+       have  choosen  at the beginning with  the  USE functions. You can
+       notice  that  this  function  makes  an  hardware  check  for the
+       soundcard  to  see  if it is  really  there.  You can't call this
+       function  before LOADMOD because, some  sound card (the GUS) have
+       to load the sample in their memory with this function.
+
+           Now, you can start the music with STARTMOD, at the end of the
+       routine  the  player  starts in background.  If  you  want a good
+       quality  music,  avoid  to  stop  interrupts  (by  calling  other
+       interrupt  or  using  assembler  instruction  like  cli).  The PC
+       speaker is specially sensitive to this.
+
+           So,  the music is playing, and you can now use other function
+       in no particular order to set or read some of the player variable
+       like  volume  with  CHANGEVOL. But  there  is  still an important
+       function,  that  you  had to call at  50  Hz,  at least, in older
+       version  of the sound system. It's MAKEMOD, this function compute
+       the  music for 1/50s, or more exactly for a frame that is defined
+       in  BPM in the module. Now  this function is called automatically
+       if the sound buffer is almost void, but you can always call it to
+       fill  the  buffer.  This  can  be  interresting  to  get  rid  of
+       relatively  long  interrupts  during  a  critical  part  of  your
+       programm without masking interrupts and stop the music.
+
+           When  you  want  to  stop the  music,  you  just have to call
+       STOPMOD.  Then  you can call another  time  STARTMOD, if you just
+       want a pause or SETMOD if you want to change the soundcard or the
+       mixing  frequency. If you want to  load another module or want to
+       terminate  your program, don't forget to call UNLOADMOD before to
+       release the memory reserved by LOADMOD.
+
+
+
+
+ Chapter VI : Crystal Sound System Functions
+-------------------------------------------------------------------------------
+
+
+           Every  function  uses the pascal  format  to take parameters.
+       They  doesn't modify the segment registers nor SI, DI , BP, SP so
+       you  can  use them directly in  C program. Other registers may be
+       altered.  Here's  a  detailed description  of  each function. The
+       error  codes  ,returning by these functions,  is a 16 bits number
+       ,defined  in  CRYSERR.INC, that is null  if  no error occured. If
+       there is an error the carry will be set too else it will be clear
+       (useful   for  assembleur  programmer).   In  all  the  following
+       descriptions,  I assume that a byte is a unsigned 8 bits integer,
+       a  word  is a unsigned 16 bits  integer,  a long is a unsigned 32
+       bits  integer and a far pointer a pointer composed by a offset on
+       16 bits and a segment on 16 bits too.
+
+
+       USEGUS,USESPK,USEDAC,USEADL,USESB,USESP,USENUL
+
+           Function  Add the corresponding driver to your program.
+
+           Input     None
+           Output    An error code
+
+           Remark    These  functions are used by  the linker to add the
+                     driver in your programm. You must call them, if you
+                     want to be to able to use the corresponding driver.
+                     The  order  in which you call  them is the order in
+                     which DETECTSND find the soundcards.
+
+
+       DETECTSND
+
+           Function  Detect   installed  sound  device  by  looking  for
+                     environment variables.
+
+           Input      A far word pointeur for the sound device ID
+                      A far word pointeur for the port address
+                      A far byte pointeur for the IRQ
+                      A far byte pointeur for DMA channel
+           Output     An error code
+
+           Remark    If  you give initialize some on these variable with
+                     a  non null value, this  routine won't change them.
+                     So you can detect the configuration of a particular
+                     sound  card, just by initialize the sound device ID
+                     with  its value. If you give  0 as the sound device
+                     number,  the routine will search for all soundcards
+                     in  the  order  of their  declaration  with the USE
+                     functions.  To detect a DAC,  put SET DAC=p (p=1 to
+                     4)  in  your autoexec.bat.  Some sound card haven't
+                     any environment variable like, adlib, pc speaker or
+                     no device, and are always detected.
+
+
+
+       FLOADMOD
+
+           Function  Load a MOD from a file.
+
+           Input     A far pointer a string, finished by a nul character
+           Output    An error code
+
+           Remark    This  function  takes itself  the memory needed for
+                     the  module. Each sample use  a few kilo bytes more
+                     than  in the file. Each sample can't be bigger than
+                     62Ko.
+
+
+       MLOADMOD
+
+           Function  Load a MOD already in memory.
+
+           Input     A far pointer on the module in memory
+           Output    An error code
+
+           Remark    This  function  exactly  do  the  same  thing  that
+                     FLOADMOD,  except  that it  doesn't load the module
+                     from  a file. Notice that  the module will be twice
+                     in  memory, and that you  can dispose of the memory
+                     previously used by the module.
+
+
+       OLOADMOD
+
+           Function  Load a MOD from a overlay.
+
+           Input     The starting position of the module in your program
+                     file on 32 bits
+           Output    An error code
+
+           Remark    This  function acts like FLOADMOD  and has the same
+                     restriction.  It  ask only for  the position of the
+                     module and search itself the name of the program.
+
+
+       UNLOADMOD
+
+           Function  Free the memory used by the module.
+
+           Input     None
+           Output    None
+
+           Remark    This  function  should be called  at the end of the
+                     program or before loading another module to release
+                     the memory used by the module.
+
+
+
+       SETMOD
+
+           Function  Define sound device and frequency.
+
+           Input     The mixing frequency in tens of Hertz on 16 bits
+                     Sound device ID on 16 bits
+                     Port adress on 16 bits
+                     IRQ on 8 bits
+                     DMA on 8 bits
+           Output    An error code
+
+           Remark    Number for sound devices are:
+                       1 = Internal PC speaker
+                       2 = DAC
+                       3 = Sound Blaster (mono 8 bits)
+                       4 = Gravis Ultrasound
+                       5 = Sound Blaster pro (stereo 8 bits)
+                       6 = Adlib
+                       7 = No sound
+                     For  the  DAC, the port  isn't  an address, but the
+                     number  of  the  parallel  port  where  the  DAC is
+                     plugged  (1 to 4). If you  give 0 as the frequency,
+                     Crystal  Player  uses  a default  value  of 19 kHz.
+                     Every  card  doesn't  use  all  parameters: On GUS,
+                     modules  are  always played at  44  kHz, the IRQ is
+                     only  needed for Sound  Blaster card. This is  this
+                     function that load samples in GUS memory.
+
+
+       STARTMOD
+
+           Function  Start the music.
+
+           Input     None
+           Output    None
+
+           Remark    The   timer   interrupt  is   chained  to  the  old
+                     interrupt,  that is called 18.2 time by second even
+                     with  DAC  or  PC  speaker  that  use  heavily this
+                     interrupt. Try not to call any function which masks
+                     interrupts as it would decrease music quality.
+
+
+       MAKEMOD
+
+           Function  Calculate a frame (1/50s) of music.
+
+           Input     None
+           Output    None
+
+           Remark    This function is called automatically by the player
+                     under  interrupt,  but  you can  call  it, to avoid
+                     rather long random interrupts during your programm.
+                     Normaly you have to call it … 50Hz but you can call
+                     it  more  or less often,  it  will still work. This
+                     funtion  use  a buffer of  4Ko,  so, for example at
+                     22Khz  mono,  you can  precalculate  about 180ms of
+                     music (9 frames).
+
+
+       STOPMOD
+
+           Function  Stop music.
+
+           Input     None
+           Output    None
+
+           Remark    This  function  allow you  to definitively stop the
+                     music  or  only pause it  and  continue it later by
+                     calling  STARTMOD again. There may be some problems
+                     with Sound Blaster cards.
+
+
+
+       CHANGEVOL
+
+           Function  Set master volume.
+
+           Input     A byte for the volume (0 to 63)
+           Output    None
+
+           Remark
+                     Just  change the volume for all voices but it's not
+                     instantaneous,  there is a delay of about 250ms. It
+                     depends mainly on the mixing frequency.
+
+
+       SETMODPOS
+
+           Function  Set the position of music.
+
+           Input     A word equal to line+position*64
+           Output    None
+
+           Remark    Change  the  position of the  music even while it's
+                     playing. Like with CHANGEVOL, the effective jump is
+                     delayed  by the internal buffer of about 250ms. The
+                     position is the sequence begin at 0.
+
+
+       GETMODPOS
+
+           Function  Read the position of music.
+
+           Input     None
+           Output    A word equal to line+position*64
+
+           Remark    Read  the  position  of  musique  even  while  it's
+                     playing.  But in fact, it's  read the position with
+                     about 250ms in advance, because of the buffer.
+
+
+        SETMODCALL
+
+           Action    Install a function called by a effect E8x.
+
+           Entr‚e    The function's number x (0 … 15)
+                     A far pointer on the function.
+           Sortie    None
+
+           Notes
+
+
+
+
+ Chapter VII : Frequently Asked Questions
+-------------------------------------------------------------------------------
+
+
+           How  can  I use variables from  the  mod playing routines, to
+       display the current pattern for instance?
+
+       >>> In order to keep Crystal Player easy to understand, I've only
+       documented  the mod playing functions,  and the Turbo Pascal unit
+       only contains those functions. But there are other public symbols
+       and  I use them in the mod  player. You can look into CRYS260.ASM
+       for the symbols, and in CRYSPLAY.ASM to see how to use them.
+
+
+           Why is the player so slow with EMM386 or QEMM386?
+
+       >>>  Extended memory managers put the  system in virtual 86 mode,
+       the  system isn't in real mode  anymore, and interrupts last much
+       longer.  Since the player uses many  of them, those managers slow
+       it.
+
+
+           How can I know that a function went right?
+
+       >>>  Functions  send back 0 and  the carry is clear if everything
+       went  right.  Else,  they  send  back  an  error  code  (look  in
+       CRYSERR.INC).
+
+
+           Why  does the function FLOADMOD or  MLOADMOD return an error code
+       with the right file name ?
+
+       >>>  Probably  because the function  can't  find enough memory to
+       load  the  samples.  Normaly a  program  takes  all the available
+       memory  when  the  DOS load it.  To  correct  this, use the SMALL
+       memory  model  in  a  C program, use  the  $M  option in a pascal
+       program  or give back all the unused memory with the DOS function
+       4Ah in a asm program.
+
+
+           How can I use a overlay module ?
+
+       >>>  First,you have to compile and link your program with passing
+       a  dummy value to OLOADMOD. You can compress your program now and
+       then  you  take  note of your  program's  length. You replace the
+       dummy  value  by the program's length  and  you compile, link and
+       possibly  compress  your program again.The  program must have the
+       same  length than before. Now, you have just to add the module at
+       the  end  of  your  program with  using,  for  example,  "copy /b
+       program+module".
+
+
+          Why the music is fainter than with other players ?
+
+       >>> First,  I don't make any  sort of amplification. Moreover, for
+       sound  blaster users, I don't change  the master volume, thus you
+       can  change  it  yourself. To change  it  you have to use set-sbp
+       program.  For example, if you want  the loudest music use set-sbp
+       /voc:15,15 /m:15,15.
+
+
+           How to compile the pascal unit with Turbo Pascal 7 ?
+
+       >>> Normaly, there no problem but as I only have the Turbo Pascal
+       6, I release only a TP6 unit.
+
+
+           Why have I some warning during compilation of CRYS260.ASM ?
+
+       >>> It's  absolutely  normal,  it's because  TASM  makes too many
+       controls.
+
+
+
+
+ Chapter VIII : Thanks
+-------------------------------------------------------------------------------
+
+
+           I  want  to thank these persons  who  have played and continue to
+       play a part in this program:
+
+           William Petiot for GUS tests and adjustements.
+           Tchi Southivong for numerous tests with GUS and SB.
+           St‚phane Gigandet for numerous SB tests.
+           Vincent Negrier for SoundBlaster tests.
+           St‚phane Scherrer for documents on Sound Blaster.
+           Francis Gastellu for the name of the player.
+           Mark J.Cox for showing me that mods could be played on PC.
+           CASCADA for GUSPLAY.
+           VLA for informations on DMA transfert.
+           Bisounours / Nuage for the translation of this file.
+
+
+
+
+ Chapter IX : Contact informations
+-------------------------------------------------------------------------------
+
+
+           If  you want to include my  routines in a commercial program,
+       if   you   have  found  bug(s),   if  you  want  some  particular
+       improvement(s), if you need more informations or have any remark,
+       you can contact me by using the following ways:
+
+           Send Mail to:
+
+               M. S‚bastien Granjoux
+               17 rue de Paris
+                        92190 Meudon
+                              France
+
+           You  can  also leave me a message  on  one of this French BBS
+       (near Paris):
+
+           Dune BBS             +33-1-47-02-25-97  24.0 Bps
+           Deadline BBS         +33-1-46-48-67-63  14.4 Bps
+                                +33-1-46-44-57-96  28.8 Bps
+           Eden BBS             +33-1-34-15-39-67  28.8 Bps
+                                +33-1-34-13-95-28  28.8 Bps
+
+           Or by email.
+
+           Sebastien.Granjoux@nuxes.frmug.fr.net
+           sebastien.granjoux#dln@sparkhq.fdn.org
+
+           Don't  hesitate  to contact me, I  will  always pleased to answer
+       you,  and  it will give me the  feeling that all this work wasn't
+       worth nothing.
+
+
+ Chapter X : Distribution Sites
+-------------------------------------------------------------------------------
+
+
+           Crystal  Player latest version will always be availlable at these
+       BBSes, free for download:
+
+           - France:
+
+               Dune BBS           +33-1-47-02-25-97  24.0 Bps
+               Deadline BBS       +33-1-46-48-67-63  14.4 Bps
+                                  +33-1-46-44-57-96  28.8 Bps
+               Eden BBS           +33-1-34-15-39-67  28.8 Bps
+                                  +33-1-34-13-95-28  28.8 Bps
+
+           More  sites  wanted!!! If you are  a sysop and want to distribute
+       Crystal Player, call one of those boards.
+
+
+
+                                         S‚bastien Granjoux,   06/11/95
+

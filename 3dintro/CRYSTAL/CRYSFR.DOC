@@ -1,0 +1,748 @@
+
+
+
+                       CRYSTAL PLAYER Version 2.74
+
+            Un  player  de  MOD  simple  et  des  routines  pour  vos
+                                   programmes
+
+
+                        Programm‚ par S‚bastien GRANJOUX
+                                  Dilvish / MWB
+
+
+
+
+       ATTENTION:  Vous ne pouvez utiliser ce programme qu'… vos risques
+       et  p‚rils.  Je ne saurais ˆtre  tenu  pour responsable de toutes
+       pertes  ou  dommages cons‚quents …  son  utilisation. Je ne donne
+       aucune  garantie quant … son fonctionnement  … part le fait qu'il
+       occupera de la place sur votre disque dur.
+
+
+
+
+ Sommaire
+-------------------------------------------------------------------------------
+
+
+       I ................................................. Licence
+       II ................................... Contenu de l'archive
+
+       III ....................................... Fonctionnalit‚s
+       IV .......................................... Le MOD player
+
+       V ............................................. Utilisation
+       VI ....................... Les fonctions de la bibliothŠque
+       VII .............................. Questions souvent pos‚es
+
+       VIII ........................................ Remerciements
+       IX ............................................... Contacts
+       X .......................... O— trouver la derniŠre version
+
+
+
+
+ Chapitre I : Licence
+-------------------------------------------------------------------------------
+
+
+           Ce  programme  vous  permet  de jouer  des  modules (fichiers
+       musicaux  avec  l'extension .MOD), et  comprend  des routines que
+       vous  pouvez utiliser dans vos  propres programmes, en respectant
+       les conditions suivantes:
+
+           Vous  pouvez inclure librement Crystal Player, dans n'importe
+       quel  freeware, si vous me mentionnez comme l'auteur des routines
+       sonores.  J'aimerais aussi que vous  m'envoyez un message pour me
+       dire o— je peux trouver votre programme, ce dernier point n'‚tant
+       pas une obligation.
+           Pour   une   utilisation   commerciale   (en   incluant   les
+       sharewares),   vous   devez  me   contacter  pour  connaŒtre  les
+       conditions  suppl‚mentaires  et  obtenir  mon  accord.  Je  pense
+       demander une version complŠte (enregistr‚e) de votre programme et
+       une petite somme d‚pendant du prix de votre programme.
+
+           Ce  programme est  fourni avec  toutes ses sources, pour vous
+       permettre  de  les modifier et de  les adapter … vos besoins. Ces
+       modifications  doivent  rester strictement  personnelles, mais je
+       serais  trŠs heureux de recevoir des am‚liorations … inclure dans
+       la  nouvelle  version.  Je veux juste  garder  un contr“le sur le
+       d‚velloppement de mon programme.
+
+           Vous pouvez par contre distribuer librement ce programme dans
+       sa  version originale avec tous  les fichiers qui l'accompagnent,
+       et je vous encourage vivement … le faire, … la condition que vous
+       ne preniez pas plus de 5 USD de frais pour sa diffusion.
+
+           Allez  voir  les  informations … la  fin  de  ce fichier pour
+       savoir comment me contacter.
+
+
+
+
+ Chapitre II : Contenu de l'archive
+-------------------------------------------------------------------------------
+
+           L'archive  doit  avoir le nom suivant  CRYSxxxl o— xxx est le
+       num‚ro  de  version  sur trois  chiffres  (exemple  240 veut dire
+       version  2.4).  La  lettre  l est  un  espace  pour  les versions
+       publiques.  Mais  par exemple,si c'est un  B c'est une version de
+       test.Ce  qui veut dire qu'elle n'est probablement pas complŠte et
+       qu'il y a encore plus de chance d'avoir des bugs.
+
+           L'archive normal comprend les 40 fichiers suivants:
+
+       CRYS.EXE      Version ex‚cutable du modplayer.
+
+       CRYSTAL.LIB   BibliothŠque pour un programme C.
+       CRYSTAL.H     Fichier d'en-tˆte pour la bibliothŠque.
+
+       CRYSTAL.TPU   Unit‚ pour un programme en Turbo Pascal.
+       CRYSINT.TPU   Unit‚ pour les routines internes.
+       CRYSTAL.PAS   Source de l'unit‚ de CRYSTAL.
+       CRYSINT.PAS   Source de l'unit‚ des routines internes.
+
+       CRYSEXP.C     Exemple d'utilisation en Turbo C.
+       CRYSEXP.PAS   Exemple d'utilisation en Turbo Pascal.
+
+       CRYSFR.DOC    Manuel de l'utilisateur, vous ˆtes en train de le lire.
+       CRYSENG.DOC   Manuel de l'utilisateur en anglais.
+       HISTORY.DOC   Historique du programme (uniquement en anglais).
+       FILE_ID.DIZ   Description pour les listes des BBS.
+
+
+       C0MULTI.ASM   Code de d‚marrage du player.
+       CRYS.ASM      Programme principal de Crystal MOD player.
+       CRYSFR.MSG    Texte du player en francais
+       CRYSENG.MSG   Texte du player en anglais
+       CRYSPLAY.ASM  Routines r‚cup‚rant diverses infos sur le module.
+       GMODE3.ASM    Routines d'affichage en mode texte 3 (80x25 16 colors).
+
+       MAKEFILE.MAK  Fichier make pour l'unit‚ pascal et la bibliothŠque C.
+
+       CRYSERR.INC   D‚finitions des codes d'erreurs.
+       CRYSID.INC    D‚finitions des num‚ros des cartes sonores.
+       CRYS260.ASM   Principales routines pour jouer un module.
+
+       CRYSDEV.INC   D‚clarations pour les drivers.
+       CRYSDEV.ASM   Routines communes … diff‚rents drivers.
+       DAC.ASM       Driver pour un Convertisseur Num‚rique->Analogique.
+       SPEAKER.ASM   Driver pour le haut parleur interne.
+       SNDBLAST.ASM  Driver pour les Sound Blaster (8 bits mono).
+       GUS.ASM       Driver pour la GUS.
+       SNDPRO.ASM    Driver pour les Sound Blaster (8 bits stereo).
+       ADLIB.ASM     Driver pour la carte Adlib.
+
+       CRYSLOAD.INC  D‚clarations pour charger des modules.
+       CRYSLOAD.ASM  Routines communes pour charger des modules.
+       LOADMOD.ASM   Routines pour charger un module au format MOD.
+       FLOADMOD.ASM  D‚claration pour charger un MOD dans un fichier.
+       MLOADMOD.ASM  D‚claration pour charger un MOD dans la m‚moire.
+       OLOADMOD.ASM  D‚claration pour charger un MOD dans un overlay.
+       CRYSFILE.ASM  Routines de chargement … partir d'un fichier.
+       CRYSOVL.ASM   Routines de chargement … partir d'overlay.
+       CRYSMEM.ASM   Routines de chargement … partir de la m‚moire.
+
+
+
+
+ Chapitre III : Fonctionnalit‚s
+-------------------------------------------------------------------------------
+
+
+           Ce  programme  est  entiŠrement  programm‚  en  assembleur et
+       contient des instructions sp‚cifiques au 386. Il me marchera donc
+       pas  sur  les XT ni les 286.  Il peut utiliser les cartes sonores
+       suivantes:
+           - le haut parleur interne (le son est pas si mal)
+           - un DAC (convertisser num‚rique->analogique) sur un port
+              parallŠle
+           - une carte adlib
+           - une Sound Blaster (SB, SB pro et SB16) en mode mono ou stereo
+              mais toujours 8 bits
+           - une Gravis UltraSound
+
+           Il accepte que les fichiers .MOD avec 15 ou 31 instruments et
+       avec  4, 6 ou 8 voies. Mais chaque sample doit avoir une longueur
+       inf‚rieure  …  63Ko.  Les effets  suivants  ne sont pas reconnus:
+       E3,E4,E5,E7  et EF. Par contre il utilise les 8 octaves de scream
+       tracker 3.
+
+           Comme  vous  le  verrez en  lisant  la  partie historique, ce
+       programme  a beaucoup ‚volu‚ ce qui fait qu'il n'est pas des plus
+       facile  … comprendre. Il contient donc  au moins quelques bugs et
+       si  quelque chose ne marche pas, vous en avez peut ˆtre trouv‚ un
+       nouveau. Dans ce cas, contactez-moi, g‚n‚ralement, j'arrive … les
+       corriger  assez vite. Si c'est un MOD particulier qui marche mal,
+       j'aimerais  aussi que vous me le transmettiez ou au moins son nom
+       et  l'endroit  ou  le trouver. J'ai  choisi  de me  pas respecter
+       parfaitement  le  format du pro tracker (il  y  a 8 octaves et un
+       problŠme  possible  avec  les   tempo  ‚tendus),  donc  certaines
+       diff‚rences sont normales.
+
+
+
+
+ Chapitre IV : Le MOD player
+-------------------------------------------------------------------------------
+
+
+           Le  MOD  player  contenu dans  l'archive  n'est  pas vraiment
+       comparable  aux autres mod player et  il possŠde peu d'option. Il
+       est  fourni pour vous permettre de juger facilement de la qualit‚
+       (et  des  d‚fauts) des routines sonores  et vous donne un exemple
+       d'utilisation  de  ces  routines en  assembleur.  Il  utilise des
+       informations  internes des routines de  restitution de la musique
+       et  vous  montre  comment les utiliser  si  vous en avez vraiment
+       besoin.  Vous  pouvez  refaire  un  nouveau  mod  player avec mes
+       routines mais elles ne sont pas faites pour cela car elles gŠrent
+       assez peu d'options et privil‚gient la vitesse … la qualit‚.
+
+           Il  s'utilise  de maniŠre assez  simple  et si vous l'appelez
+       sans paramŠtre, il affiche une page d'aide. Vous devez lui passer
+       comme paramŠtre au moins le nom d'un fichier MOD (l'extension est
+       optionnelle). Il  choisira  par d‚faut la  meilleure carte sonore
+       qu'il  trouvera  dans vos  variables d'environnement. Vous pouvez
+       forcer  une  carte sp‚ciale, mˆme si  elle  n'existe pas dans les
+       variables  d'environnement, ou changer la fr‚quence de mixage par
+       d‚faut (autour de 20KHz) en utilisant les options suivantes:
+
+            /FRxxxx Fr‚quence de mixage en dizaine Hertz
+
+            /SK       Haut parleur interne
+            /DCp      DAC sur le port parallŠle p (1 to 4)
+            /SBp,i,d  Sound Blaster (8 bits mono) … l'adresse p (en
+                       hexad‚cimal 220 par exemple) avec l'IRQ i et le
+                       canal DMA d.
+            /GSp      Gravis UltraSound … l'adresse p (en hexad‚cimal)
+            /SPp,i,d  Sound Blaster pro (8 bits stereo) … l'adresse p
+                       (toujours en hexad‚cimal) avec l'IRQ i et le
+                       canale DMA d.
+            /AD       Carte adlib
+
+           Les  paramŠtres  p, i ou d  ne sont pas obligatoires mais pas
+       les  virgules, cela oblige le player  … chercher ces valeurs dans
+       les  variables d'environnement. Si elles  n'existent pas il prend
+       des valeurs par d‚faut.
+
+           Dans le player, le temps CPU utilis‚ correspond uniquement au
+       temps, utilis‚ par le player sans les rafraichissements d'‚cran …
+       part  ceux de l'‚cran principal  (instrument, aide ou vu-mŠtres).
+       Si la musique sort mal, cette valeur n'est plus significative. La
+       m‚moire  utilis‚  comprend par contre  le  player entier avec des
+       routines  que vous n'int‚grerez …  priori pas dans vos programmes
+       comme l'affichage des vu-mŠtres.
+
+
+
+
+ Chapitre V : Utilisation
+-------------------------------------------------------------------------------
+
+
+           La source a ‚t‚ assembl‚e avec Turbo Assembleur en mode ideal
+       et  utilise  des  instructions  386.  Les  routines  sonores sont
+       principalement  rassembl‚es  dans CRYS260.ASM.  Pour les utiliser
+       vous  devez utiliser juste la  librairie et son fichier d'en-tˆte
+       ou les deux unit‚s pour le Turbo Pascal.
+
+           Pour  jouer  de la musique, vous  devez  appeler une s‚rie de
+       fonctions  dans le bon ordre.  Pour commencer, vous devez d‚cider
+       quelles sont les cartes sonores support‚es par votre programme en
+       appelant les fonctions USE correspondantes. Ces fonctions forcent
+       le  lieur … int‚grer les drivers  … votre programme. L'ordre dans
+       lequel  vous  les  appelez  est  l'ordre  dans  lequel  DETECTSND
+       trouvera  les cartes sonores. Donc si  vous pensez que la GUS est
+       la  meilleure  carte  mettez  l…  en  premier,  pour qu'elle soit
+       trouv‚e  mˆme  si  il  a  aussi  une  Sound  Blaster  sur le mˆme
+       ordinateur.
+
+           Vous  pouvez  maintenant appeler  DETECTSND  pour trouver les
+       cartes  sonores  disponibles.  Cette  fonction  utilise juste les
+       variables   d'environement   pour   ‚viter   des   problŠmes   de
+       compatibilit‚s.  Donc,  si  vous n'avez  pas  de SET BLASTER dans
+       votre  AUTOEXEC.BAT,  cette  fonction ne  trouvera   pas la Sound
+       Blaster.  Pour  le  DAC, vous  pouvez  utiliser DAC=port, avec un
+       nombre  entre  1 et 4 pour  port, correspondant au port parallŠle
+       sur  lequel est branch‚ le DAC. Si la carte sonore ne possŠde pas
+       de  variable  d'environnement  attitr‚e,  comme  le  haut parleur
+       interne  ou  la  carte adlib,  elle est  toujours d‚tect‚e. Enfin
+       retenez  que cette fonction n'est pas obligatoire c'est juste une
+       facilit‚ qui vous est offerte.
+
+           Maintenant,  vous devez charger le module … jouer. Pour cela,
+       vous  pouvez utiliser FLOADMOD, MLOADMOD  ou OLOADMOD suivant que
+       le  module  est  respectivement dans  un  fichier,  dans une zone
+       m‚moire  ou  dans  un  overlay (simplement  ajout‚  …  la  fin du
+       programme).  Comme  avec la plupart des  fonctions,  si il y a un
+       problŠme,  la retenu sera lev‚ et  la fonction retournera un code
+       d'erreur  non  nul. Ces fonctions  sont les plus susceptibles  de
+       sortir  une erreur … cause d'un  fichier absent ou d'un manque de
+       m‚moire.
+
+           Une  fois  le module charg‚,  vous devez intialiser le player
+       avec  SETMOD  pour  la carte sonore  …  utiliser.  Elle doit ˆtre
+       comprise dans celle d‚j… selectionn‚e au d‚but avec les fonctions
+       USE. Notez que cette fonction fait une v‚rification hardware pour
+       v‚rifier si la carte sonore est r‚ellement l…. Vous ne pouvez pas
+       appeler  cette  fonction  avant  LOADMOD  car  c'est  dans  cette
+       fonction que la GUS charge les samples dans sa m‚moire.
+
+           Maintenant,  vous  n'avez plus qu'… commencer la musique avec
+       STARTMOD,  …  la fin de cette  fonction,  la musique commence. Si
+       vous  voulez  une  bonne  qualit‚  sonore,  ‚viter  d'arrˆter les
+       interruptions,  en  appelant d'autres d'interruptions ou avec une
+       instruction comme cli. Dans un language de haut niveau ‚viter les
+       fonctions  trop  complexes.  Le  haut  parleur  interne  est trŠs
+       sensible … cela.
+
+           La  musique  joue,  et vous  pouvez  maintenant  utiliser les
+       autres  fonctions pour changer des  paramŠtres de la musique dans
+       n'importe  quel ordre comme par exemple CHANGEVOL pour le volume.
+       Mais il y a encore une fonction importante, qu'il fallait appeler
+       …  50 Hz, (en fait … chaque  frame d‚fini en BPM  dans le module)
+       au  moins  dans  les  anciennes versions,  c'est  MAKEMOD.  Cette
+       fonction  est  trŠs  importante  car  elle  calcule  la  musique.
+       Maintenant  elle  est  appel‚e automatiquement  si le  buffer est
+       presque vide. Vous n'etes donc pas oblig‚ de vous en occuper mais
+       elle  peut ˆtre utile pour ‚viter d'avoir des interruptions assez
+       longues et al‚atoires dans votre programme.
+
+           Quand  vous  voulez  arrˆter  la  musique  appelez simplement
+       STOPMOD.  Puis  vous  pouvez  rappeler  STARTMOD  si  vous voulez
+       seulement  une pause, ou SETMOD si vous voulez en plus changer de
+       carte  sonore ou mˆme encore LOADMOD si vous voulez aussi changer
+       de  module. Mais attention, si vous voulez arrˆter d‚finitivement
+       le  programme ou charger un  autre module appelez avant UNLOADMOD
+       pour rendre au DOS la m‚moire prise par le module.
+
+
+
+
+ Chapitre VI : Les fonctions de la bibliothŠque
+-------------------------------------------------------------------------------
+
+
+           Toutes  les fonctions utilisent la  convention du pascal pour
+       prendre  leurs arguments. Elles sauvegardent toutes les registres
+       de  segment  ainsi  que  SI, DI,  BP,  SP,  vous  pouvez donc les
+       utiliser directement en C. Les autres registres peuvent avoir ‚t‚
+       modifi‚s.  Voici  maintenant  le d‚tail  de  toutes les fonctions
+       acc‚ssibles.  Le  code d'erreur est un  entier sur 16 bits d‚crit
+       dans  CRYSERR.INC,  qui est nul si il  n'y  a pas eu d'erreur. De
+       plus la retenue est lev‚e en sortie si il y a eu une erreur sinon
+       elle  est baiss‚e (utile pour les programmeurs en assembleur). Je
+       rappele  que  dans la description des  fonctions  un octet est un
+       entier  sur 8 bits, un mot un entier sur 16 bits et un double mot
+       un  entier  sur  32  bits,  un  pointeur  long  est  un  pointeur
+       comprenant  une  partie offset sur 16  bits et une partie segment
+       sur 16 bits.
+
+
+       USEGUS,USESPK,USEDAC,USEADL,USESB,USESP,USENUL
+
+           Action    Ajoute le driver correspondant … votre programme.
+
+           Entr‚e    Aucune
+           Sortie    Un code d'erreur
+
+           Notes     Ces  fonctions  sont  utilis‚es  par  le lieur pour
+                     ajouter  les drivers …  votre programme. Vous devez
+                     les  appeler  si vous  voulez  pouvoir utiliser les
+                     cartes   sonores  correspondantes   par  la  suite.
+                     L'ordre dans lequel vous appelez ces fonctions, est
+                     l'ordre  dans  lequel  DETECTSND  trouve les cartes
+                     sonores.
+
+
+       DETECTSND
+
+           Action    D‚tecte    les   cartes   sonores   install‚es   en
+                     recherchant     les    variables    d'environnement
+                     correspondantes.
+
+           Entr‚e    Un pointeur long sur un mot pour le num‚ro du driver
+           Un pointeur long sur un mot pour l'adresse de port
+                     Un pointeur long sur un octet pour l'IRQ
+                     Un pointeur long sur un octet pour le canal DMA
+           Sortie    Un code d'erreur
+
+           Notes     Si  vous  placez  des valeurs  non  nulles dans ces
+                     variables,  cette routine ne les changera pas, vous
+                     pouvez  ainsi  forcer  la  routine  …  d‚tecter  la
+                     configuration d'une carte pr‚cise. Si vous mettez 0
+                     comme   num‚ro   de  carte   sonore,  le  programme
+                     cherchera  les cartes sonores  dans l'ordre de leur
+                     d‚claration   avec   les   fonctions   USE  d‚crite
+                     ci-dessus.  Pour  le DAC  le programme recherche la
+                     variable  d'environnement  DAC=numero du  port (1 …
+                     4).  Les cartes sonores restantes  qui n'ont pas de
+                     variable   d'environement  (carte   adlib  ou  haut
+                     parleur interne) sont toujours d‚tect‚es.
+
+
+
+       FLOADMOD
+
+           Action    Charge un MOD … partir d'un fichier.
+
+           Entr‚e    Un pointeur long sur une chaine termin‚e par 0
+           Sortie    Un code d'erreur
+
+           Notes     Cette   fonction    alloue  elle-mˆme  la   m‚moire
+                     n‚cessaire   aux  instruments,   chaque  instrument
+                     utilisant  quelque kilos octets de plus que dans le
+                     module. Chaque instrument doit pouvoir rentrer dans
+                     un segment (64Ko).
+
+
+       MLOADMOD
+
+           Action    Charge un MOD d‚j… en m‚moire.
+
+           Entr‚e    Un pointeur long sur le MOD en m‚moire
+           Sortie    Un code d'erreur
+
+           Notes
+                     Cette fonction fait exactement la mˆme chose que la
+                     pr‚c‚dente  sauf  qu'elle  ne charge  pas  le MOD …
+                     partir  d'un disque. Il faut noter qu'elle alloue …
+                     nouveau   de   la  place   m‚moire  pour  tous  les
+                     instruments  ce  qui fait que  le  mod se trouve en
+                     fait   deux  fois  en  m‚moire.  Mais  vous  pouvez
+                     r‚utiliser cette place.
+
+
+       OLOADMOD
+
+           Action    Charge un MOD … partir d'un overlay.
+
+           Entr‚e    La  position du module dans  votre programme sur un
+                     double mot
+           Sortie    Un code d'erreur
+
+           Notes
+                     Cette   fonction  est  ‚quivalente  …  FLOADMOD  et
+                     comporte  donc  les  mˆmes  restrictions.  Elle  se
+                     contente de la position du mod dans l'‚xecutable et
+                     se charge de retrouver son nom.
+
+
+       UNLOADMOD
+
+           Action    LibŠre la m‚moire utilis‚e par le module.
+
+           Entr‚e    Aucune
+           Sortie    Aucune
+
+           Notes     Cette  fonction  doit  ˆtre  appel‚e …  la  fin  du
+                     programme ou avant de recharger un nouveau MOD pour
+                     rendre  au  DOS  la  place  m‚moire  prise  par les
+                     instruments.
+
+
+
+       SETMOD
+
+           Action    Initialise la carte sonore et la fr‚quence de mixage.
+
+           Entr‚e    Un mot pour la fr‚quence de mixage en disaine de Herts
+                     Un mot pour le num‚ro de la carte sonore
+                     Un mot pour l'adresse de la carte sonore
+                     Un octet pour l'IRQ
+                     Un octet pour le DMA
+           Sortie    Un code d'erreur
+
+           Notes     Les num‚ros des cartes sonores sont:
+                       1 = Haut parleur interne
+                       2 = DAC
+                       3 = Sound Blaster (mono 8 bits)
+                       4 = Gravis Ultrasound
+                       5 = Sound Blaster pro (stereo 8 bits)
+                       6 = Adlib
+                       7 = Pas de son
+                     Pour le DAC le port ne correspond pas … une adresse
+                     mais  au num‚ro du port parallŠle sur lequel il est
+                     connect‚  (1 … 4). Si on passe 0 comme paramŠtre en
+                     fr‚quence,  la  routine choisit  une  fr‚quence par
+                     d‚faut  de 19kHz. Toutes les cartes n'utilisent pas
+                     forc‚ment tous les paramŠtres. La GUS n'utilise pas
+                     la fr‚quence et joue toujours le mod … 44kHz. Seule
+                     la soundblaster utilise l'IRQ et le canal DMA. Pour
+                     la  GUS il faut noter que c'est dans cette fonction
+                     que  les  instruments sont  charg‚s dans sa m‚moire
+                     mais il reste en m‚moire centrale.
+
+
+       STARTMOD
+
+           Action    D‚marre la musique.
+
+           Entr‚e    Aucune
+           Sortie    Aucune
+
+           Notes     L'interruption   de   l'horloge   est   chain‚e   …
+                     l'ancienne  interruption qui est toujours appel‚e …
+                     18,2  Hz.  A  partir de  ce  moment  il faut ‚viter
+                     toutes les fonctions qui masquent les interruptions
+                     sous peine de d‚grader consid‚rablement la musique.
+
+
+       MAKEMOD
+
+           Action    Calcule une "frame" (1/50s) de musique.
+
+           Entr‚e    Aucune
+           Sortie    Aucune
+
+           Notes     Cette     fonction    est     maintenant    appel‚e
+                     automatiquement  par  le  player sous interruption.
+                     Mais  vous  pouvez l'appeler  vous-mˆme pour ‚viter
+                     des   interruptions  al‚atoires  et  assez  longues
+                     durant  les  parties critiques  de votre programme.
+                     Dans  ce  cas, il faut  l'appeler  … au moins 50Hz.
+                     Cette  fonction  utilise  un buffer  de  4Ko donc …
+                     22Khz  mono, vous pouvez  faire aucun appel pendant
+                     180ms (9 frames), mais il faut rattraper aprŠs.
+
+
+       STOPMOD
+
+           Action    Arrˆte la musique.
+
+           Entr‚e    Aucune
+           Entr‚e    Aucune
+
+           Notes
+                     Cette fonction vous permet d'arrˆter d‚finitivement
+                     la  musique  ou de pouvoir  faire une pause si vous
+                     rappeler  STARTMOD  par la suite.  Il  peut y avoir
+                     quelques   problŠmes,   en   particulier   avec  la
+                     soundblaster,   si  vous  faites  des  pauses  trop
+                     rapproch‚es.
+
+
+
+       CHANGEVOL
+
+           Action    Fixe le volume global.
+
+           Entr‚e    Un octet pour le volume (0 to 63)
+           Sortie    Aucune
+
+           Notes     Change  simplement le volume de toutes les voix. Ce
+                     n'est pas  instantan‚ … cause du  buffer de 4Ko qui
+                     apporte  du retard: 2 frames  au maximum si MAKEMOD
+                     n'est jamais appel‚ mais plus sinon.
+
+
+       SETMODPOS
+
+           Action    Fixe la position de la musique.
+
+           Entr‚e    Un mot ‚gal … ligne+position*64
+           Sortie    Aucune
+
+           Notes     Change  la  position  de  la  musique, mˆme pendant
+                     qu'elle  joue.  Comme  avec  CHANGEVOL,  le  buffer
+                     apporte   le  mˆme  retard.  La  position  dans  la
+                     s‚quence commence … 0.
+
+
+       GETMODPOS
+
+           Action    R‚cupŠre la position de la musique.
+
+           Entr‚e    Aucune
+           Sortie    Un mot ‚gal … ligne+position*64
+
+           Notes     Lis la position de la musique, mˆme pendant qu'elle
+                     joue.  Le  buffer apporte  le mˆme d‚calage qu'avec
+                     CHANGEVOL mais en avance cette fois ci.
+
+
+        SETMODCALL
+
+           Action    Installe une fonction … appeler avec l'effet E8x.
+
+           Entr‚e    Le num‚ro de la fonction x (0 … 15)
+                     Un pointeur long sur la fonction
+           Sortie    Aucune
+
+           Notes     Installe  une fonction du programme utilisateur qui
+                     sera  appel‚e  dans MAKEMOD …  chaque effet E8x. La
+                     fonction ne doit modifier aucun registre de segment
+                     ni SI,DI,BP et SP.
+
+
+
+
+ Chapitre VII : Questions souvent Pos‚es
+-------------------------------------------------------------------------------
+
+
+           Comment  acc‚der  aux variables des  routines  jouant les MOD
+       pour par exemple afficher le num‚ro du pattern en cours ?
+
+       >>> Pour rester le plus simple possible je n'ai document‚ que les
+       fonctions  indispensables  du  module jouant  les  MOD et l'unit‚
+       pascal  ne  contient  que  ces fonctions.  Mais  il  y a d'autres
+       symboles  publics  dans  ce  module et  je  les  utilise dans mon
+       player. Vous pouvez donc regarder dans CRYS260.ASM les diff‚rents
+       symboles   accesibles   et   voir   comment   les  utiliser  dans
+       CRYSPLAY.ASM.
+
+
+           Pourquoi  le  player  marche plus  lentement  avec  EMM386 ou
+       QEMM386 ?
+
+       >>>  C'est  tout … fait normal, c'est d– au fait que quand EMM386
+       ou  tout autre gestionnaire de m‚moire  ‚tendue est en marche, la
+       machine  n'est plus en mode r‚el mais  en mode virtuel 86 et dans
+       ce mode, les interruptions prennent beaucoup plus de temps. Comme
+       le player les utilise beaucoup, cela le ralenti enorm‚ment.
+
+
+           Comment savoir si une fonction s'est bien d‚roul‚e ?
+
+       >>>  Normalement,  mes  routines  renvoient 0  et  la retenue est
+       effac‚e  si  tout  s'est bien  pass‚.  Dans  le cas contraire, la
+       retenue  est  mise  et je renvoie  un  code d'erreur indiqu‚ dans
+       CRYSTAL.INC.
+
+
+           Pourquoi  je n'arrive pas … charger  le module alors que j'ai
+       le bon nom de fichier ?
+
+       >>>  Il est possible que la routine n'arrive pas … r‚server de la
+       m‚moire  pour  charger les instruments.  La routine demande cette
+       m‚moire au DOS et il faut donc que votre programme ne se l'ai pas
+       entiŠrement  appropri‚. Dans un programme  C,il faut utiliser par
+       exemple  le  modŠle  SMALL  qui prend  que  128Ko  de  m‚moire au
+       maximum.  Pour  un programme pascal,  il  faut mettre l'option $M
+       pour  limiter  la  taille  du tas.  Enfin  si  vous programmez en
+       assembleur  il  faut  rendre  la  m‚moire  inutilis‚e  par  votre
+       programme au d‚marrage avec la fonction 4Ah du DOS que ce soit un
+       programme COM ou EXE.
+
+
+           Comment mettre un module en overlay ?
+
+       >>>  Il faut commencer par compiler votre programme ex‚cutable en
+       appelant  la  fonction OLOADMOD avec  une valeur bidon. Puis vous
+       regardez   la   taille   de   votre   ex‚cutable   aprŠs  l'avoir
+       ‚ventuellement  compact‚  et vous  recompilez  votre programme en
+       passant … OLOADMOD cette valeur. Vous pouvez alors recompacter le
+       r‚sultat  avant d'ajouter le module mais il faut que la taille du
+       programme  reste  la  mˆme. Enfin  pour  ajouter  votre module il
+       suffit    de   faire,   par   exemple,    sous   DOS   "copy   /B
+       programme+module".
+
+
+           Pourquoi la musique est moins forte qu'avec d'autres players ?
+
+       >>>  Le player ne fait aucune amplification donc ca ne d‚forme par
+       le son mais le volume global est plus  faible. DeuxiŠmement, pour
+       les  utilisateurs  de sound blaster, le  player ne modifie par le
+       volume global de la  carte. Ceci est un choix, et vous  permet de
+       r‚gler  le  volume utilis‚ par d‚faut.  Pour changer ce volume il
+       faut  utiliser  l'utilitaire set-sbp. Par  exemple pour mettre le
+       volume au maximum il faut faire set-sbp /voc:15,15 /m:15,15.
+
+
+           Comment compiler l'unit‚ pascal avec le Turbo Pascal 7 ?
+
+       >>>  Normalement, il ne devrait pas y avoir de  problŠme, mais vu
+       que  je ne possŠde que le Turbo Pascal 6, je distribue uniquement
+       une unit‚ pour cette version.
+
+
+           Pourquoi  j'ai  des  "warnings"  lors  de  la  compilation de
+       CRYS260.ASM avec TASM ?
+
+       >>>  C'est  tout  … fait normal,  c'est  dut … des contr“les trop
+       pr‚cis de TASM mais cela n'engendre aucune erreur.
+
+
+
+
+ Chapitre VIII : Remerciements
+-------------------------------------------------------------------------------
+
+
+           Je  tiens … remercier les personnes suivantes qui ont jou‚ et
+       continue de jouer un r“le dans le d‚veloppement de ce programme:
+
+           William Petiot pour les tests avec la GUS et les r‚glages.
+           Tchi Southivong pour les nombreux tests avec la GUS et la SB.
+           St‚phane Gigandet pour les nombreux tests avec la SB.
+           Vincent Negrier pour les tests SB.
+           St‚phane Scherrer pour des documents sur la Sound Blaster.
+           Francis Gastellu pour le nom du player.
+           Mark J.Cox pour m'avoir montrer que l'on peut jouer des MOD sur PC.
+           CASCADA pour GUSPLAY.
+           VLA pour des informations sur les transferts DMA.
+           Bisounours / Nuage pour la traduction anglaise de ce fichier.
+
+
+
+
+ Chapitre IX : Contacts
+-------------------------------------------------------------------------------
+
+
+           Si  vous  voulez  utiliser  mes  routines  dans  un programme
+       commercial,  si vous trouvez un ou des bug(s), si vous voulez une
+       am‚lioration   pr‚cise,   si  vous   voulez   des  renseignements
+       suppl‚mentaires  ou  si vous avez  juste  quelques remarques … me
+       faire vous pouvez me contacter … l'adresse suivante:
+
+               M. S‚bastien Granjoux
+               17 rue de Paris
+                        92190 Meudon
+                              France
+
+           Vous  pouvez  aussi me laisser un  message sur un des ces BBS
+       (en France prŠs de Paris).
+
+           Dune                 +33-1-47-02-25-97  28.8 Bps
+           Deadline             +33-1-46-48-67-63  14.4 Bps
+                                +33-1-46-44-57-96  28.8 Bps
+           Eden                 +33-1-34-15-39-67  28.8 Bps
+                                +33-1-34-13-95-28  28.8 Bps
+
+           Ou avec mon adresse email.
+
+           Sebastien.Granjoux@nuxes.frmug.fr.net
+           sebastien.granjoux#dln@sparkhq.fdn.org
+
+           N'h‚sitez  pas  … me contacter,  je serai toujours heureux de
+       vous  r‚pondre  et cela me donnera  l'impression  que je n'ai pas
+       ‚crit tout ce code pour rien.
+
+
+
+
+ Chapitre X : O— trouver la derniŠre version
+-------------------------------------------------------------------------------
+
+           La   derniŠre   version  de   Crystal  Player  sera  toujours
+       disponible  sur  les  BBS  suivants  (il  peut  y  avoir un petit
+       delai).
+
+           - France:
+
+               Dune               +33-1-47-02-25-97  28.8 Bps
+               Deadline           +33-1-46-48-67-63  14.4 Bps
+                                  +33-1-46-44-57-96  28.8 Bps
+               Eden               +33-1-34-15-39-67  28.8 Bps
+                                  +33-1-34-13-95-28  28.8 Bps
+
+           Si vous voulez aussi distribuer Crystal Player, appelez un de
+       ces BBS.
+
+
+
+                                         S‚bastien Granjoux,   11/06/95
+

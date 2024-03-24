@@ -1,0 +1,122 @@
+
+ Appendix : History
+-------------------------------------------------------------------------------
+
+
+           As I've already said it in the documentation, I've coded this
+       program like a snowball falling, getting bigger and bigger. Three
+       years  ago, I started to write a program which only worked on the
+       internal  pc speaker, then I added more and more features. Here's
+       the  list of improvements which were  made since version 1.3, the
+       first one to have a documentation.
+
+Version 2.74 (11 Jun 1995)
+
+	Bug fixed with GUS
+	Minor player bug fixed
+	Player in english (and french)
+	Bug fixed with SB16 (this should work now)
+	Add a callback function with effect E8x
+
+Version 2.70 (12 May 1995)
+
+        Bug fixed with GUS
+        Bug fixed with SB16 (8 bits only)
+        Bug fixed with adlib (non random volume anymore !)
+        Show cpu and memory usage
+        Nicer vu-meters
+        Better documentation
+        Speed up GUS driver (x5 !)
+        Add functions to read or change position during playing
+        Can play completely under interrupts
+	Use DMA 0 to 3 (not just 1) and IRQ higher than 8 with SB
+
+Version 2.60 (18 Mar 1995)
+
+        Use Sound Blaster pro
+        Use Adlib sound board
+        Rewrite of major code parts
+        Sound better with Sound Blaster and DAC
+        Link only used device
+        Remove finetune support
+
+Version 2.50 (11 Jan 1995)
+
+        Sound better with GUS
+        Add a master volume
+        Load and play 6 voices MOD
+        Load from overlay
+
+Version 2.40 (2 Oct 1994)
+
+        Add finetune support
+        Fixed some bugs
+        Examples in Turbo Pascal and C were rewritten
+        Complete rewrite of documentation
+
+Version 2.30 (11 Nov 1994)
+
+        Load and play 8 voices MOD
+        Use 8 octaves like Scream Tracker 3
+
+Version 2.20
+
+        Use GUS
+        Correct another bug with Sound Blaster
+        Add function to detect installed sound card
+
+Version 2.10
+
+        Recorrect portamento tone
+        Add the no sound option
+        Correct a bug with pattern jump
+        Partially correct bug on pause with Sound Blaster
+        Correct effect 9
+
+Version 2.00
+
+        Speed up all the routines (+20%)
+        Load MOD from memory
+        Correct effect E6
+        Add the following effects: pattern delay,cut note,note
+         delay,rettrig sample
+
+Version 1.90
+
+        Add some small details
+        Code a pascal unit and some example in pascal and C
+        Add some options during replay (change pattern...)
+        Speed up the routines (+4%)
+
+Version 1.80
+
+        Add some animation during replay
+        Speaker sound a little better
+
+Version 1.70
+
+        General recorrect of effects
+        Add portamento+volume slide,vibrato+volume slide,extended
+         tempo,tremolo,play end part of sample,fine portamento,fine
+         volume slide and loop
+
+Version 1.60
+
+        Correct big bugs from version 1.5 !!
+        Correct arpeggio
+
+Version 1.50
+
+        Use Sound Blaster
+        Use MOD with 31 samples
+
+Version 1.30
+
+        Rewrite of the code (more modular)
+        Changeable mixing frequency
+        Speed up the PC speaker routines (+20%)
+        Correct portamento tone and vibrato
+        Correct pitch of the notes
+        Correct use of tempo
+        A documentation
+
