@@ -2,6 +2,8 @@
 
 DOS 3D library in C++ from scratch
 
+https://github.com/rjpg/GRMEM/assets/22857941/47c4c04d-f040-4d9d-959c-8d6a78497a0f
+
 An example of a GRMEM application where a DNA molecule is presented in 3D. Made in C++. This example uses the turtle vectorial drawing method (rotate, move, pen up, and pen down operations).
 
 ![adn](https://github.com/rjpg/GRMEM/assets/22857941/4d10915e-da30-44ca-bdb4-262b52e655ce)
