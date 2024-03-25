@@ -1,6 +1,6 @@
 # GRMEM
 
-DOS 3D library in C++ from scratch
+DOS 3D library in C++ from scratch in 1996.
 
 https://github.com/rjpg/GRMEM/assets/22857941/47c4c04d-f040-4d9d-959c-8d6a78497a0f
 
